@@ -2,7 +2,7 @@
 # See https://docs.docker.com/develop/develop-images/multistage-build/
 
 # Stage 1: Downloading dependencies and building the application
-FROM node:15.10.0-buster-slim AS builder
+FROM node:14.16.1-buster-slim AS builder
 
 RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 
@@ -22,7 +22,7 @@ RUN npm run build
 RUN npm prune --production
 
 # Stage 2: Building the production image
-FROM node:15.10.0-buster-slim
+FROM node:14.16.1-buster-slim
 
 # Set the working directory
 WORKDIR /home/node
@@ -30,13 +30,14 @@ WORKDIR /home/node
 # Copy dependencies
 COPY --from=builder --chown=node /home/node/node_modules node_modules/
 
+ADD ./src /home/node/src
+ADD ./proto /home/node/proto
 # Copy the app
 COPY --from=builder --chown=node \
-    /home/node/package*.json \
-    /home/node/*.js \
-    /home/node/proto \
-    /home/node/user-function.desc \
-    ./
+  /home/node/package*.json \
+  /home/node/user-function.desc \
+  ./
+
 
 # Run the app as an unprivileged user for extra security.
 USER node
