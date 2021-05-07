@@ -14,8 +14,8 @@ const action = new Action(
 
 action.commandHandlers = {Hello: hello};
 
-function hello(data, ctx) {
-  return {text: "Do you want to play a game?"};
+function hello(command, ctx) {
+  return {text: "Do you want to play a game, " + command.name + "?"};
 }
 
 module.exports = action;

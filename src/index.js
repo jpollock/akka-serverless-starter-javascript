@@ -7,4 +7,4 @@ server.addComponent(require("./myvalueentity"));
 server.addComponent(require("./myvalueview"));
 server.addComponent(require("./myaction"));
 
-server.start();
+server.start({bindAddress:'0.0.0.0', bindPort:'8080'});

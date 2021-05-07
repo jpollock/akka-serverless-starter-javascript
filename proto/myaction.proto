@@ -1,13 +1,18 @@
 // This is the public API offered by your entity.
 syntax = "proto3";
 
+import "google/protobuf/any.proto";
+import "akkaserverless/annotations.proto";
+import "google/api/annotations.proto";
+
+
 package com.example;
 
 option go_package = "$packageInPathFormat";
 option java_outer_classname = "MyAction";
 
 message MyRequest {
-    int32 value = 1;
+    string name = 1;
 }
 
 message MyResponse {
@@ -15,5 +20,10 @@ message MyResponse {
 }
 
 service MyServiceAction {
-    rpc Hello(MyRequest) returns (MyResponse);
+    rpc Hello(MyRequest) returns (MyResponse) {
+        option (google.api.http) = {
+            post: "/hello",
+            body: "*"
+        };  
+    }
 }
