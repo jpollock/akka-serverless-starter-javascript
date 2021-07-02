@@ -17,6 +17,11 @@ message GetStateCommand {
 }
 
 service MyServiceEventSourcedEntity {
+    option (akkaserverless.service) = {
+        type: SERVICE_TYPE_ENTITY
+        component: ".domain.Things"
+    };
+
     rpc SetData(Thing) returns (google.protobuf.Empty) {
         option (google.api.http) = {
             put: "/event_sourced/things/{thing_id}"

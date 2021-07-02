@@ -9,14 +9,16 @@ import "mydomain.proto";
 
 package com.example;
 
-option go_package = "$packageInPathFormat";
-option java_outer_classname = "MyValueEntity";
-
 message GetValueStateCommand {
     string thing_id = 1 [(akkaserverless.field).entity_key = true];
 }
 
 service MyServiceValueEntity {
+    option (akkaserverless.service) = {
+        type: SERVICE_TYPE_ENTITY
+        component: ".domain.Things"
+    };
+
     rpc SetData(Thing) returns (google.protobuf.Empty) {
         option (google.api.http) = {
             put: "/value/things/{thing_id}"

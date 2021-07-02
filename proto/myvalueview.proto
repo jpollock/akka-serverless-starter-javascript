@@ -16,7 +16,7 @@ service MyServiceValueView {
     rpc UpdateThing(Thing) returns (Thing) {
         option (akkaserverless.method).eventing = {
           in: {
-            value_changes: "value_things"
+            value_entity: "value_things"
           }
         };
         option (akkaserverless.method).view.update = {
